@@ -1,13 +1,13 @@
-package com.example.preonboardingbackendassignment;
+package com.example.auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PreonboardingBackendAssignmentApplication {
+public class AuthApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PreonboardingBackendAssignmentApplication.class, args);
+		SpringApplication.run(AuthApplication.class, args);
 	}
 
 }
