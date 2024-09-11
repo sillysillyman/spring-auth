@@ -16,8 +16,10 @@ import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
@@ -61,11 +63,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
             CustomUserDetails userDetails = userDetailsService.loadUserByUsername(
                 loginRequestDto.getUsername());
+
+            // 사용자 유무 확인
             if (userDetails == null) {
                 log.error("사용자를 찾을 수 없습니다.");
-                ResponseUtil.writeJsonResponse(response, HttpStatus.BAD_REQUEST.value(),
-                    "사용자를 찾을 수 없습니다.");
-                return null;
+                throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
+            }
+
+            // 사용자 상태 확인 (ACTIVE 상태가 아닐 경우 실패 처리)
+            if (!userDetails.isEnabled()) {
+                log.error("비활성화된 계정입니다. (Status: {})", userDetails.user().getStatus());
+                throw new DisabledException("계정이 비활성화되었습니다.");
             }
 
             UsernamePasswordAuthenticationToken authenticationToken =
