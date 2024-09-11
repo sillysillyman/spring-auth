@@ -1,0 +1,51 @@
+@baseUrl = http://localhost:8080/api/auth
+@username = "newUser1"
+@password = "newPassword1!"
+@confirmedPassword = "newPassword1!"
+@email = "newUser1@example.com"
+
+### 회원가입 테스트
+POST {{baseUrl}}/signup
+Content-Type: application/json
+
+{
+  "username": {{username}},
+  "password": {{password}},
+  "confirmedPassword": {{confirmedPassword}},
+  "email": {{email}}
+}
+
+### 로그인 테스트
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+  "username": {{username}},
+  "password": {{password}}
+}
+
+> {%
+  let accessToken = response.headers.valueOf("Authorization");
+  let refreshToken = response.headers.valueOf("Refresh");
+
+  client.global.set("Authorization", accessToken);
+  client.global.set("Refresh", refreshToken);
+  client.log("Authorization: " + accessToken);
+  client.log("Refresh: " + refreshToken);
+%}
+
+### 액세스 토큰 갱신 테스트
+POST {{baseUrl}}/refresh
+Refresh: {{Refresh}}
+
+> {%
+  let accessToken = response.headers.valueOf("Authorization");
+
+  client.global.set("Authorization", accessToken);
+  client.log("Authorization: " + accessToken);
+%}
+
+
+### 로그아웃 테스트
+POST {{baseUrl}}/logout
+Authorization: {{Authorization}}
