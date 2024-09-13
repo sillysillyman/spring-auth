@@ -3,9 +3,11 @@ package com.example.springauth.domain.auth.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class SignupRequestDto {
 
     @NotBlank(message = "아이디를 입력해주세요.")

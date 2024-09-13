@@ -2,9 +2,11 @@ package com.example.springauth.domain.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class ChangePasswordRequestDto {
 
     @NotBlank(message = "현재 비밀번호를 입력해주세요.")
