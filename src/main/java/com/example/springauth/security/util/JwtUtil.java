@@ -24,7 +24,7 @@ import org.springframework.util.StringUtils;
 @Component
 @RequiredArgsConstructor
 @Slf4j(topic = "JwtUtil")
-public final class JwtUtil {
+public class JwtUtil {
 
     @Getter
     private final JwtConfig jwtConfig;
